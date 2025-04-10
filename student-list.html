@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Sinh viên</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+             :root {
+    --primary-color: #D52B1E;     /* đỏ PTIT */
+    --secondary-color: #B22222;   /* đỏ đậm */
+    --danger-color: #8B0000;      /* đỏ rất đậm */
+    --border-color: #D52B1E;
+}
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            display: flex;
+            min-height: 100vh;
+        }
+        .logo-container {
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.ptit-logo {
+    width: 80px; /* Điều chỉnh kích thước theo ý muốn */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.logo {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+        
+        /* Sidebar - Giữ nguyên từ dashboard */
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            padding: 20px 0;
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+        
+        /* Tab môn học */
+        .subject-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .subject-tab {
+            padding: 10px 20px;
+            background: #f0f4ff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        
+        .subject-tab.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Bảng sinh viên */
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .student-table th {
+            background: #f5f7fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .student-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e8ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        /* Thêm vào phần CSS */
+.menu li a {
+    /* Giữ nguyên các thuộc tính hiện có */
+    background: #f8f9fa; /* Màu nền nhạt */
+    margin: 5px 10px;
+    border-radius: 5px;
+}
+
+.menu li a:hover, 
+.menu li a.active {
+    background: var(--primary-color); /* Màu khi hover/active */
+    color: white;
+    border-left: 3px solid var(--secondary-color);
+}
+.back-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.back-button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+/* Cập nhật CSS cho sidebar */
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    color: var(--primary-color);
+    background: none !important;
+}
+
+.user-email {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.user-role {
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-role i {
+    font-size: 14px;
+}
+
+.menu-badge {
+    margin-left: auto;
+    font-size: 16px;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #555;
+    text-decoration: none;
+    transition: all 0.3s;
+    background: none;
+    margin: 0;
+    border-radius: 0;
+    border-left: 3px solid transparent;
+}
+
+.menu li a:hover, 
+.menu li a.active {
+    background: #f0f4ff;
+    color: var(--primary-color);
+    border-left: 3px solid var(--primary-color);
+}
+
+.menu li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .subject-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/ptit-logo-inkythuatso-17-14-54-16.jpg" alt="PTIT Logo" class="ptit-logo"> <!-- Thay ptit-logo.png bằng đường dẫn hình ảnh thực tế -->
+            <div class="logo">Student Notes</div>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar" id="user-avatar">VV</div>
+            <div class="user-info">
+                <div class="user-name" id="user-name">Vũ Văn Thắng</div>
+                <div class="user-role">Hệ chính quy</div>
+            </div>
+        </div>
+        
+        <ul class="menu">
+            <li>
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i> Trang chủ
+                    <span class="menu-badge"></span>
+                </a>
+            </li>
+            <li>
+                <a href="student-list.html" class="active">
+                    <i class="fas fa-users"></i> Danh sách SV
+                    <span class="menu-badge"></span>
+                </a>
+            </li>
+            <!-- Thêm các menu khác nếu cần -->
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1 class="page-title"><i class="fas fa-users"></i> Danh sách Sinh viên theo môn</h1>
+        </div>
+        
+        <div class="card">
+            <div class="subject-tabs">
+                <button class="subject-tab active" data-subject="cdl">Cấu trúc dữ liệu và giải thuật</button>
+                <button class="subject-tab" data-subject="vt">Kỹ thuật thông tin vô tuyến</button>
+                <button class="subject-tab" data-subject="mp">Mô phỏng hệ thống truyền thôn</button>
+                <button class="subject-tab" data-subject="mtt">Kỹ thuật mạng truyền thông</button>
+                <button class="subject-tab" data-subject="ttq">Kỹ thuật thông tin quang</button>
+                <button class="subject-tab" data-subject="hdh">Hệ điều hành</button>
+                <button class="subject-tab" data-subject="kntt">Kỹ năng thuyết trình</button>
+                <button class="subject-tab" data-subject="cnpm">Công nghệ phần mềm</button>
+            </div>
+            
+            <!-- Bảng danh sách sinh viên -->
+            <table class="student-table" id="student-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th></th>
+                        <th>Mã SV</th>
+                        <th>Họ tên</th>
+                        <th>Lớp</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody id="student-list">
+                    <!-- Dữ liệu sẽ được thêm bằng JS -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="back-button-container" style="margin-top: 30px; text-align: center;">
+            <button class="back-button" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i> Trở về Trang chủ
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu mẫu
+        const studentData = {
+            cdl: [
+  { id: 1, code: "B22DCVT001", name: "Nguyễn Trường An", class: "D22CDVT01-B", email: "annt@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT002", name: "Phạm Tuấn An", class: "D22CDVT02-B", email: "anpt@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT010", name: "Đinh Kim Tuấn Anh", class: "D22CDVT03-B", email: "anhdkt@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT012", name: "Đỗ Quang Anh", class: "D22CDVT04-B", email: "anhdq@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT015", name: "Hoàng Quốc Anh", class: "D22CDVT05-B", email: "anhhq@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT016", name: "Hoàng Tú Anh", class: "D22CDVT06-B", email: "anhht@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT067", name: "Lương Mạnh Cường", class: "D22CDVT07-B", email: "cuonglm@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT143", name: "Cổ Hữu Điềm", class: "D22CDVT08-B", email: "diemch@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT167", name: "Trần Trường Giang", class: "D22CDVT01-B", email: "giangtt@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT168", name: "Vũ Đức Giang", class: "D22CDVT02-B", email: "giangvd@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT177", name: "Nguyễn Văn Hải", class: "D22CDVT03-B", email: "hainv@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT179", name: "Vũ Hoàng Hán", class: "D22CDVT04-B", email: "hanvh@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT181", name: "Lê Xuân Hảo", class: "D22CDVT05-B", email: "haolx@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT190", name: "Trương Đại Hiệp", class: "D22CDVT06-B", email: "hieptd@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT193", name: "Ngô Minh Hiếu", class: "D22CDVT07-B", email: "hieumn@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT199", name: "Đào Công Hòa", class: "D22CDVT08-B", email: "hoadc@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT201", name: "Bùi Huy Hoàng", class: "D22CDVT01-B", email: "hoangbh@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT206", name: "Lê Huy Hoàng", class: "D22CDVT02-B", email: "hoanglh@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT217", name: "Võ Đình Hoàng", class: "D22CDVT03-B", email: "hoangvd@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT241", name: "Nguyễn Quốc Huy", class: "D22CDVT04-B", email: "huynq@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT253", name: "Nguyễn Duy Hưng", class: "D22CDVT05-B", email: "hungnd@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT279", name: "Dương Thế Khanh", class: "D22CDVT06-B", email: "khanhdt@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT283", name: "Lê Đức Khánh", class: "D22CDVT07-B", email: "khanhld@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT260", name: "La Thế Kiên", class: "D22CDVT08-B", email: "kienlt@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT265", name: "Tạ Trung Kiên", class: "D22CDVT01-B", email: "kientt@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT300", name: "Mưu Thị Ngọc Lan", class: "D22CDVT02-B", email: "lanmtn@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT302", name: "Lê Phúc Lâm", class: "D22CDVT03-B", email: "lamlp@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT305", name: "Nguyễn Thị Liên", class: "D22CDVT04-B", email: "liennt@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT308", name: "Phạm Quang Linh", class: "D22CDVT05-B", email: "linhpq@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT314", name: "Hồ Ngọc Long", class: "D22CDVT06-B", email: "longhn@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT315", name: "Lê Phi Long", class: "D22CDVT07-B", email: "longlp@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT323", name: "Vũ Thăng Long", class: "D22CDVT08-B", email: "longvt@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT328", name: "Hà Văn Mạnh", class: "D22CDVT01-B", email: "manhhv@stu.ptit.edu.vn" },
+  { id: 34, code: "B22DCVT353", name: "Dương Đức Nam", class: "D22CDVT02-B", email: "namdd@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT354", name: "Dương Hoài Nam", class: "D22CDVT03-B", email: "namdh@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT358", name: "Ngô Hoài Nam", class: "D22CDVT04-B", email: "namnh@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT361", name: "Nguyễn Khánh Nam", class: "D22CDVT05-B", email: "namnk@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT370", name: "Trần Phương Nam", class: "D22CDVT06-B", email: "namtp@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT391", name: "Trần Trung Nghĩa", class: "D22CDVT07-B", email: "nghiatt@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT378", name: "Nguyễn Đức Ngọc", class: "D22CDVT08-B", email: "ngocnd@stu.ptit.edu.vn" }
+]
+,
+vt: [
+  { id: 1, code: "B22DCVT015", name: "Hoàng Quốc Anh", class: "D22CDVT01-B", email: "anhhq@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT041", name: "Ngô Quang Ánh", class: "D22CDVT02-B", email: "anhnq@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT047", name: "Bùi Gia Bảo", class: "D22CDVT03-B", email: "baobg@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT078", name: "Nguyễn Mạnh Chiến", class: "D22CDVT04-B", email: "chiennm@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT082", name: "Nguyễn Thành Chung", class: "D22CDVT05-B", email: "chungnt@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT083", name: "Trịnh Đức Chung", class: "D22CDVT06-B", email: "chungtd@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT061", name: "Nguyễn Phúc Công", class: "D22CDVT07-B", email: "congnp@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT064", name: "Cao Hùng Cường", class: "D22CDVT08-B", email: "cuongch@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT094", name: "Trần Ngô Anh Dũng", class: "D22CDVT01-B", email: "dungtna@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT096", name: "Bùi Khánh Duy", class: "D22CDVT02-B", email: "duybk@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT107", name: "Nguyễn Thành Duy", class: "D22CDVT03-B", email: "duynt@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT110", name: "Vũ Văn Duy", class: "D22CDVT04-B", email: "duyvv@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT112", name: "Nguyễn Ngọc Dương", class: "D22CDVT05-B", email: "duongnn@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT123", name: "Đinh Tiến Đạt", class: "D22CDVT06-B", email: "datdt@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT153", name: "Ngô Văn Đức", class: "D22CDVT07-B", email: "ducnv@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT159", name: "Nguyễn Trung Đức", class: "D22CDVT08-B", email: "ductn@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT177", name: "Nguyễn Văn Hải", class: "D22CDVT01-B", email: "hainv@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT181", name: "Lê Xuân Hảo", class: "D22CDVT02-B", email: "haolx@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT183", name: "Lê Thị Thúy Hằng", class: "D22CDVT03-B", email: "hangltt@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT186", name: "Lưu Xuân Hiền", class: "D22CDVT04-B", email: "hienlx@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT193", name: "Ngô Minh Hiếu", class: "D22CDVT05-B", email: "hieumn@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT201", name: "Bùi Huy Hoàng", class: "D22CDVT06-B", email: "hoangbh@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT202", name: "Đoàn Viết Hoàng", class: "D22CDVT07-B", email: "hoangdv@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT218", name: "Nguyễn Quốc Học", class: "D22CDVT08-B", email: "hocnq@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT233", name: "Đào Đức Huy", class: "D22CDVT01-B", email: "huydd@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT246", name: "Trần Văn Huy", class: "D22CDVT02-B", email: "huytv@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT251", name: "Nguyễn Hữu Huỳnh", class: "D22CDVT03-B", email: "huynhhh@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT288", name: "Nguyễn Khoa Nam Khang", class: "D22CDVT04-B", email: "khangnkn@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT279", name: "Dương Thế Khanh", class: "D22CDVT05-B", email: "khanhdt@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT285", name: "Nguyễn Quốc Khánh", class: "D22CDVT06-B", email: "khanhnq@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT296", name: "Trần Thanh Khôi", class: "D22CDVT07-B", email: "khoitt@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT298", name: "Phạm Bảo Khuê", class: "D22CDVT08-B", email: "khuepb@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT309", name: "Phạm Tuấn Linh", class: "D22CDVT01-B", email: "linhpt@stu.ptit.edu.vn" },
+  { id: 34, code: "B22DCVT311", name: "Vũ Đức Linh", class: "D22CDVT02-B", email: "linhvd@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT313", name: "Đào Thanh Long", class: "D22CDVT03-B", email: "longdt@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT316", name: "Lê Văn Long", class: "D22CDVT04-B", email: "longlv@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT325", name: "Trịnh Nguyên Lượng", class: "D22CDVT05-B", email: "luongtn@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT329", name: "Lê Công Mạnh", class: "D22CDVT06-B", email: "manhlc@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT352", name: "Chu Hải Nam", class: "D22CDVT07-B", email: "namch@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT362", name: "Nguyễn Ngọc Nam", class: "D22CDVT08-B", email: "namnn@stu.ptit.edu.vn" }
+],
+mp: [
+
+{ id: 1, code: "B22DCVT024", name: "Nguyễn Đức Anh", class: "D22CDVT04-B", email: "anhnd@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT057", name: "Nguyễn Thanh Bình", class: "D22CDVT04-B", email: "binhnt@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT083", name: "Trịnh Đức Chung", class: "D22CDVT04-B", email: "chungtd@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT092", name: "Nguyễn Tấn Dũng", class: "D22CDVT04-B", email: "dungnt@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT096", name: "Bùi Khánh Duy", class: "D22CDVT04-B", email: "duybk@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT107", name: "Nguyễn Thành Duy", class: "D22CDVT04-B", email: "duynt@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT110", name: "Vũ Văn Duy", class: "D22CDVT04-B", email: "duyvv@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT122", name: "Cao Xuân Đạt", class: "D22CDVT04-B", email: "datcx@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT129", name: "Nguyễn Đức Đạt", class: "D22CDVT04-B", email: "datnd@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT139", name: "Nguyễn Minh Đăng", class: "D22CDVT04-B", email: "dangnm@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT162", name: "Trần Khánh Đức", class: "D22CDVT04-B", email: "ductk@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT171", name: "Phạm Đức Giầu", class: "D22CDVT04-B", email: "giauxpd@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT177", name: "Nguyễn Văn Hải", class: "D22CDVT04-B", email: "hainv@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT188", name: "Bùi Ngọc Hiện", class: "D22CDVT04-B", email: "hienbn@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT186", name: "Lưu Xuân Hiền", class: "D22CDVT04-B", email: "hienlx@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT193", name: "Ngô Minh Hiếu", class: "D22CDVT04-B", email: "hieunm@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT196", name: "Phan Nhân Hiếu", class: "D22CDVT04-B", email: "hieupn@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT199", name: "Đào Công Hòa", class: "D22CDVT04-B", email: "hoadc@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT201", name: "Bùi Huy Hoàng", class: "D22CDVT04-B", email: "hoangbh@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT203", name: "Đỗ Doãn Hoàng", class: "D22CDVT04-B", email: "hoangdd@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT204", name: "Lê Bá Hoàng", class: "D22CDVT04-B", email: "hoanglb@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT223", name: "Đào Huy Hùng", class: "D22CDVT04-B", email: "hungdh@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT228", name: "Nguyễn Thọ Hùng", class: "D22CDVT04-B", email: "hungnt@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT243", name: "Phan Đình Huy", class: "D22CDVT04-B", email: "huypd@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT249", name: "Vi Hồng Huy", class: "D22CDVT04-B", email: "huyvh@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT251", name: "Nguyễn Hữu Huỳnh", class: "D22CDVT04-B", email: "huynhnh@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT252", name: "Hoàng Việt Hưng", class: "D22CDVT04-B", email: "hunghv@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT284", name: "Nguyễn Hồng Khánh", class: "D22CDVT04-B", email: "khanhnh@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT267", name: "Tống Ngọc Kiên", class: "D22CDVT04-B", email: "kientn@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT268", name: "Trần Đình Kiên", class: "D22CDVT04-B", email: "kientd@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT305", name: "Nguyễn Thị Liên", class: "D22CDVT04-B", email: "lientnt@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT309", name: "Phạm Tuấn Linh", class: "D22CDVT04-B", email: "linhpt@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT339", name: "Lê Quốc Minh", class: "D22CDVT04-B", email: "minhlq@stu.ptit.edu.vn" },
+  { id: 34, code: "B22DCVT352", name: "Chu Hải Nam", class: "D22CDVT04-B", email: "namch@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT362", name: "Nguyễn Ngọc Nam", class: "D22CDVT04-B", email: "namnn@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT409", name: "Nguyễn Minh Phượng", class: "D22CDVT04-B", email: "phuongnm@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT411", name: "Nguyễn Danh Quang", class: "D22CDVT04-B", email: "quangnd@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT418", name: "Vũ Duy Quang", class: "D22CDVT04-B", email: "quangvd@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT420", name: "Đàm Trung Quân", class: "D22CDVT04-B", email: "quandt@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT436", name: "Ngô Phú Sâm", class: "D22CDVT04-B", email: "samnp@stu.ptit.edu.vn" },
+],
+hdh: [
+  { id: 1, code: "B22DCVT002", name: "Phạm Tuấn An", class: "D22CDVT04-B", email: "anpt@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT008", name: "Đặng Việt Anh", class: "D22CDVT04-B", email: "anhdv@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT012", name: "Đỗ Quang Anh", class: "D22CDVT04-B", email: "anhdq@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT017", name: "Hoàng Trung Anh", class: "D22CDVT04-B", email: "anhht@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT046", name: "Trương Tiến Bách", class: "D22CDVT04-B", email: "bacht@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT053", name: "Vương Quốc Bảo", class: "D22CDVT04-B", email: "baovq@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT087", name: "Đặng Tấn Dũng", class: "D22CDVT04-B", email: "dungdt@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT117", name: "Tăng Thế Dương", class: "D22CDVT04-B", email: "duongtt@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT126", name: "Hoàng Đức Đạt", class: "D22CDVT04-B", email: "dathd@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT128", name: "Nguyễn Đức Đạt", class: "D22CDVT04-B", email: "datnd@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT129", name: "Nguyễn Đức Đạt", class: "D22CDVT04-B", email: "datnd@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT135", name: "Vũ Tiến Đạt", class: "D22CDVT04-B", email: "datvt@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT148", name: "Nguyễn Thành Đông", class: "D22CDVT04-B", email: "dongnt@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT150", name: "Lê Anh Đức", class: "D22CDVT04-B", email: "ducla@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT169", name: "Vũ Hoàng Giang", class: "D22CDVT04-B", email: "giangvh@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT197", name: "Vi Minh Hiếu", class: "D22CDVT04-B", email: "hieuvm@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT213", name: "Nguyễn Văn Hoàng", class: "D22CDVT04-B", email: "hoangnv@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT216", name: "Trịnh Huy Hoàng", class: "D22CDVT04-B", email: "hoangth@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT223", name: "Đào Huy Hùng", class: "D22CDVT04-B", email: "hungdh@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT224", name: "Đinh Thế Hùng", class: "D22CDVT04-B", email: "hungdt@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT232", name: "Đàm Phúc Huy", class: "D22CDVT04-B", email: "huydp@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT236", name: "Lê Quốc Huy", class: "D22CDVT04-B", email: "huylq@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT242", name: "Nguyễn Song Huy", class: "D22CDVT04-B", email: "huyns@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT249", name: "Vi Hồng Huy", class: "D22CDVT04-B", email: "huyvh@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT273", name: "Bùi Trí Kha", class: "D22CDVT04-B", email: "khabt@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT290", name: "Nguyễn Ngọc Khang", class: "D22CDVT04-B", email: "khangnn@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT293", name: "Lương Hải Khoa", class: "D22CDVT04-B", email: "khoalh@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT295", name: "Nông Đình Khôi", class: "D22CDVT04-B", email: "khoind@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT298", name: "Phạm Bảo Khuê", class: "D22CDVT04-B", email: "khuepb@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT272", name: "Nguyễn Hữu Kỳ", class: "D22CDVT04-B", email: "kynh@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT305", name: "Nguyễn Thị Liên", class: "D22CDVT04-B", email: "lientnt@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT316", name: "Lê Văn Long", class: "D22CDVT04-B", email: "longlv@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT325", name: "Trịnh Nguyên Lượng", class: "D22CDVT04-B", email: "luongtn@stu.ptit.edu.vn" },
+  { id: 34, code: "B22DCVT327", name: "Đỗ Tiến Mạnh", class: "D22CDVT04-B", email: "manhdt@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT337", name: "Hoàng Sỹ Minh", class: "D22CDVT04-B", email: "minhhs@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT338", name: "Lê Ngọc Minh", class: "D22CDVT04-B", email: "minhln@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT353", name: "Dương Đức Nam", class: "D22CDVT04-B", email: "namdd@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT357", name: "Lưu Phương Nam", class: "D22CDVT04-B", email: "namlp@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT359", name: "Nguyễn Hoài Nam", class: "D22CDVT04-B", email: "namnh@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT361", name: "Nguyễn Khánh Nam", class: "D22CDVT04-B", email: "namnk@stu.ptit.edu.vn" }
+],
+cnpm: [
+  { id: 1, code: "B22DCVT004", name: "Trần Văn An", class: "D22CDVT04-B", email: "anvt@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT005", name: "Bùi Đức Anh", class: "D22CDVT04-B", email: "anhbd@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT007", name: "Dương Thị Hồng Anh", class: "D22CDVT04-B", email: "anhdt@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT009", name: "Đinh Hà Anh", class: "D22CDVT04-B", email: "anhdha@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT020", name: "Lê Hùng Anh", class: "D22CDVT04-B", email: "anhlh@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT041", name: "Ngô Quang Ánh", class: "D22CDVT04-B", email: "anhnq@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT057", name: "Nguyễn Thanh Bình", class: "D22CDVT04-B", email: "binhnt@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT082", name: "Nguyễn Thành Chung", class: "D22CDVT04-B", email: "chungnt@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT061", name: "Nguyễn Phúc Công", class: "D22CDVT04-B", email: "congnp@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT064", name: "Cao Hùng Cường", class: "D22CDVT04-B", email: "cuonghc@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT070", name: "Nguyễn Văn Cường", class: "D22CDVT04-B", email: "cuongnv@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT084", name: "Lê Thành Danh", class: "D22CDVT04-B", email: "danhlt@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT112", name: "Nguyễn Ngọc Dương", class: "D22CDVT04-B", email: "duongnn@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT115", name: "Nguyễn Triều Dương", class: "D22CDVT04-B", email: "duongnt@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT122", name: "Cao Xuân Đạt", class: "D22CDVT04-B", email: "datcx@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT126", name: "Hoàng Đức Đạt", class: "D22CDVT04-B", email: "dathd@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT139", name: "Nguyễn Minh Đăng", class: "D22CDVT04-B", email: "dangnm@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT142", name: "Trịnh Hải Đăng", class: "D22CDVT04-B", email: "dangth@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT144", name: "Lại Thế Đoàn", class: "D22CDVT04-B", email: "doanlt@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT158", name: "Nguyễn Trung Đức", class: "D22CDVT04-B", email: "ducnt@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT162", name: "Trần Khánh Đức", class: "D22CDVT04-B", email: "ducnk@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT168", name: "Vũ Đức Giang", class: "D22CDVT04-B", email: "giangvd@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT176", name: "Nguyễn Ngọc Hải", class: "D22CDVT04-B", email: "hainn@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT186", name: "Lưu Xuân Hiền", class: "D22CDVT04-B", email: "hienlx@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT241", name: "Nguyễn Quốc Huy", class: "D22CDVT04-B", email: "huynq@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT250", name: "Ngô Thị Thu Huyền", class: "D22CDVT04-B", email: "huyenth@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT279", name: "Dương Thế Khanh", class: "D22CDVT04-B", email: "khanhdt@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT258", name: "Đặng Sỹ Kiên", class: "D22CDVT04-B", email: "kiends@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT302", name: "Lê Phúc Lâm", class: "D22CDVT04-B", email: "lamlp@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT323", name: "Vũ Thăng Long", class: "D22CDVT04-B", email: "longvt@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT327", name: "Đỗ Tiến Mạnh", class: "D22CDVT04-B", email: "manhdt@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT357", name: "Lưu Phương Nam", class: "D22CDVT04-B", email: "namlp@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT371", name: "Trần Quảng Nam", class: "D22CDVT04-B", email: "namtq@stu.ptit.edu.vn" },
+  { id: 34, code: "B20DCVT292", name: "Nguyễn Đình Phúc", class: "D20CDVT04-B", email: "phucnd@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT418", name: "Vũ Duy Quang", class: "D22CDVT04-B", email: "quangvd@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT433", name: "Nguyễn Như Quỳnh", class: "D22CDVT04-B", email: "quynhnn@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT435", name: "Vương Văn Sáng", class: "D22CDVT04-B", email: "sangvv@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT439", name: "Lê Hữu Sơn", class: "D22CDVT04-B", email: "sonlh@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT443", name: "Nguyễn Hồng Sơn", class: "D22CDVT04-B", email: "sonnh@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT452", name: "Ngô Văn Tâm", class: "D22CDVT04-B", email: "tamnv@stu.ptit.edu.vn" }
+],
+mtt: [
+  { id: 1, code: "B22DCVT001", name: "Nguyễn Trường An", class: "D22CDVT01-B", email: "annt@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT002", name: "Phạm Tuấn An", class: "D22CDVT02-B", email: "anpt@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT010", name: "Đinh Kim Tuấn Anh", class: "D22CDVT03-B", email: "anhdkt@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT012", name: "Đỗ Quang Anh", class: "D22CDVT04-B", email: "anhdq@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT015", name: "Hoàng Quốc Anh", class: "D22CDVT05-B", email: "anhhq@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT016", name: "Hoàng Tú Anh", class: "D22CDVT06-B", email: "anhht@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT067", name: "Lương Mạnh Cường", class: "D22CDVT07-B", email: "cuonglm@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT143", name: "Cổ Hữu Điềm", class: "D22CDVT08-B", email: "diemch@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT167", name: "Trần Trường Giang", class: "D22CDVT01-B", email: "giangtt@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT168", name: "Vũ Đức Giang", class: "D22CDVT02-B", email: "giangvd@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT177", name: "Nguyễn Văn Hải", class: "D22CDVT03-B", email: "hainv@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT179", name: "Vũ Hoàng Hán", class: "D22CDVT04-B", email: "hanvh@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT181", name: "Lê Xuân Hảo", class: "D22CDVT05-B", email: "haolx@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT190", name: "Trương Đại Hiệp", class: "D22CDVT06-B", email: "hieptd@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT193", name: "Ngô Minh Hiếu", class: "D22CDVT07-B", email: "hieumn@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT199", name: "Đào Công Hòa", class: "D22CDVT08-B", email: "hoadc@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT201", name: "Bùi Huy Hoàng", class: "D22CDVT01-B", email: "hoangbh@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT206", name: "Lê Huy Hoàng", class: "D22CDVT02-B", email: "hoanglh@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT217", name: "Võ Đình Hoàng", class: "D22CDVT03-B", email: "hoangvd@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT241", name: "Nguyễn Quốc Huy", class: "D22CDVT04-B", email: "huynq@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT253", name: "Nguyễn Duy Hưng", class: "D22CDVT05-B", email: "hungnd@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT279", name: "Dương Thế Khanh", class: "D22CDVT06-B", email: "khanhdt@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT283", name: "Lê Đức Khánh", class: "D22CDVT07-B", email: "khanhld@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT260", name: "La Thế Kiên", class: "D22CDVT08-B", email: "kienlt@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT265", name: "Tạ Trung Kiên", class: "D22CDVT01-B", email: "kientt@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT300", name: "Mưu Thị Ngọc Lan", class: "D22CDVT02-B", email: "lanmtn@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT302", name: "Lê Phúc Lâm", class: "D22CDVT03-B", email: "lamlp@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT305", name: "Nguyễn Thị Liên", class: "D22CDVT04-B", email: "liennt@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT308", name: "Phạm Quang Linh", class: "D22CDVT05-B", email: "linhpq@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT314", name: "Hồ Ngọc Long", class: "D22CDVT06-B", email: "longhn@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT315", name: "Lê Phi Long", class: "D22CDVT07-B", email: "longlp@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT323", name: "Vũ Thăng Long", class: "D22CDVT08-B", email: "longvt@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT328", name: "Hà Văn Mạnh", class: "D22CDVT01-B", email: "manhhv@stu.ptit.edu.vn" },
+  { id: 34, code: "B22DCVT353", name: "Dương Đức Nam", class: "D22CDVT02-B", email: "namdd@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT354", name: "Dương Hoài Nam", class: "D22CDVT03-B", email: "namdh@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT358", name: "Ngô Hoài Nam", class: "D22CDVT04-B", email: "namnh@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT361", name: "Nguyễn Khánh Nam", class: "D22CDVT05-B", email: "namnk@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT370", name: "Trần Phương Nam", class: "D22CDVT06-B", email: "namtp@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT391", name: "Trần Trung Nghĩa", class: "D22CDVT07-B", email: "nghiatt@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT378", name: "Nguyễn Đức Ngọc", class: "D22CDVT08-B", email: "ngocnd@stu.ptit.edu.vn" }
+]
+,
+ttq: [
+  { id: 1, code: "B22DCVT004", name: "Trần Văn An", class: "D22CDVT04-B", email: "anvt@stu.ptit.edu.vn" },
+  { id: 2, code: "B22DCVT005", name: "Bùi Đức Anh", class: "D22CDVT04-B", email: "anhbd@stu.ptit.edu.vn" },
+  { id: 3, code: "B22DCVT007", name: "Dương Thị Hồng Anh", class: "D22CDVT04-B", email: "anhdt@stu.ptit.edu.vn" },
+  { id: 4, code: "B22DCVT009", name: "Đinh Hà Anh", class: "D22CDVT04-B", email: "anhdha@stu.ptit.edu.vn" },
+  { id: 5, code: "B22DCVT020", name: "Lê Hùng Anh", class: "D22CDVT04-B", email: "anhlh@stu.ptit.edu.vn" },
+  { id: 6, code: "B22DCVT041", name: "Ngô Quang Ánh", class: "D22CDVT04-B", email: "anhnq@stu.ptit.edu.vn" },
+  { id: 7, code: "B22DCVT057", name: "Nguyễn Thanh Bình", class: "D22CDVT04-B", email: "binhnt@stu.ptit.edu.vn" },
+  { id: 8, code: "B22DCVT082", name: "Nguyễn Thành Chung", class: "D22CDVT04-B", email: "chungnt@stu.ptit.edu.vn" },
+  { id: 9, code: "B22DCVT061", name: "Nguyễn Phúc Công", class: "D22CDVT04-B", email: "congnp@stu.ptit.edu.vn" },
+  { id: 10, code: "B22DCVT064", name: "Cao Hùng Cường", class: "D22CDVT04-B", email: "cuonghc@stu.ptit.edu.vn" },
+  { id: 11, code: "B22DCVT070", name: "Nguyễn Văn Cường", class: "D22CDVT04-B", email: "cuongnv@stu.ptit.edu.vn" },
+  { id: 12, code: "B22DCVT084", name: "Lê Thành Danh", class: "D22CDVT04-B", email: "danhlt@stu.ptit.edu.vn" },
+  { id: 13, code: "B22DCVT112", name: "Nguyễn Ngọc Dương", class: "D22CDVT04-B", email: "duongnn@stu.ptit.edu.vn" },
+  { id: 14, code: "B22DCVT115", name: "Nguyễn Triều Dương", class: "D22CDVT04-B", email: "duongnt@stu.ptit.edu.vn" },
+  { id: 15, code: "B22DCVT122", name: "Cao Xuân Đạt", class: "D22CDVT04-B", email: "datcx@stu.ptit.edu.vn" },
+  { id: 16, code: "B22DCVT126", name: "Hoàng Đức Đạt", class: "D22CDVT04-B", email: "dathd@stu.ptit.edu.vn" },
+  { id: 17, code: "B22DCVT139", name: "Nguyễn Minh Đăng", class: "D22CDVT04-B", email: "dangnm@stu.ptit.edu.vn" },
+  { id: 18, code: "B22DCVT142", name: "Trịnh Hải Đăng", class: "D22CDVT04-B", email: "dangth@stu.ptit.edu.vn" },
+  { id: 19, code: "B22DCVT144", name: "Lại Thế Đoàn", class: "D22CDVT04-B", email: "doanlt@stu.ptit.edu.vn" },
+  { id: 20, code: "B22DCVT158", name: "Nguyễn Trung Đức", class: "D22CDVT04-B", email: "ducnt@stu.ptit.edu.vn" },
+  { id: 21, code: "B22DCVT162", name: "Trần Khánh Đức", class: "D22CDVT04-B", email: "ducnk@stu.ptit.edu.vn" },
+  { id: 22, code: "B22DCVT168", name: "Vũ Đức Giang", class: "D22CDVT04-B", email: "giangvd@stu.ptit.edu.vn" },
+  { id: 23, code: "B22DCVT176", name: "Nguyễn Ngọc Hải", class: "D22CDVT04-B", email: "hainn@stu.ptit.edu.vn" },
+  { id: 24, code: "B22DCVT186", name: "Lưu Xuân Hiền", class: "D22CDVT04-B", email: "hienlx@stu.ptit.edu.vn" },
+  { id: 25, code: "B22DCVT241", name: "Nguyễn Quốc Huy", class: "D22CDVT04-B", email: "huynq@stu.ptit.edu.vn" },
+  { id: 26, code: "B22DCVT250", name: "Ngô Thị Thu Huyền", class: "D22CDVT04-B", email: "huyenth@stu.ptit.edu.vn" },
+  { id: 27, code: "B22DCVT279", name: "Dương Thế Khanh", class: "D22CDVT04-B", email: "khanhdt@stu.ptit.edu.vn" },
+  { id: 28, code: "B22DCVT258", name: "Đặng Sỹ Kiên", class: "D22CDVT04-B", email: "kiends@stu.ptit.edu.vn" },
+  { id: 29, code: "B22DCVT302", name: "Lê Phúc Lâm", class: "D22CDVT04-B", email: "lamlp@stu.ptit.edu.vn" },
+  { id: 30, code: "B22DCVT323", name: "Vũ Thăng Long", class: "D22CDVT04-B", email: "longvt@stu.ptit.edu.vn" },
+  { id: 31, code: "B22DCVT327", name: "Đỗ Tiến Mạnh", class: "D22CDVT04-B", email: "manhdt@stu.ptit.edu.vn" },
+  { id: 32, code: "B22DCVT357", name: "Lưu Phương Nam", class: "D22CDVT04-B", email: "namlp@stu.ptit.edu.vn" },
+  { id: 33, code: "B22DCVT371", name: "Trần Quảng Nam", class: "D22CDVT04-B", email: "namtq@stu.ptit.edu.vn" },
+  { id: 34, code: "B20DCVT292", name: "Nguyễn Đình Phúc", class: "D20CDVT04-B", email: "phucnd@stu.ptit.edu.vn" },
+  { id: 35, code: "B22DCVT418", name: "Vũ Duy Quang", class: "D22CDVT04-B", email: "quangvd@stu.ptit.edu.vn" },
+  { id: 36, code: "B22DCVT433", name: "Nguyễn Như Quỳnh", class: "D22CDVT04-B", email: "quynhnn@stu.ptit.edu.vn" },
+  { id: 37, code: "B22DCVT435", name: "Vương Văn Sáng", class: "D22CDVT04-B", email: "sangvv@stu.ptit.edu.vn" },
+  { id: 38, code: "B22DCVT439", name: "Lê Hữu Sơn", class: "D22CDVT04-B", email: "sonlh@stu.ptit.edu.vn" },
+  { id: 39, code: "B22DCVT443", name: "Nguyễn Hồng Sơn", class: "D22CDVT04-B", email: "sonnh@stu.ptit.edu.vn" },
+  { id: 40, code: "B22DCVT452", name: "Ngô Văn Tâm", class: "D22CDVT04-B", email: "tamnv@stu.ptit.edu.vn" }
+]
+
+
+
+
+
+        };
+
+        // Hiển thị danh sách sinh viên
+        function renderStudentList(subject) {
+            const students = studentData[subject] || [];
+            const tbody = document.getElementById('student-list');
+            
+            tbody.innerHTML = students.map(student => `
+                <tr>
+                    <td>${student.id}</td>
+                    <td><div class="student-avatar">${student.name.charAt(0)}</div></td>
+                    <td>${student.code}</td>
+                    <td>${student.name}</td>
+                    <td>${student.class}</td>
+                    <td>${student.email}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Xử lý chuyển tab
+        document.querySelectorAll('.subject-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const subject = this.getAttribute('data-subject');
+                renderStudentList(subject);
+            });
+        });
+
+        // Khởi tạo
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStudentList('cdl'); // Mặc định hiển thị môn đầu tiên
+            
+            // Kiểm tra đăng nhập
+            if (!localStorage.getItem('isLoggedIn')) {
+                window.location.href = 'login.html';
+            } else {
+                const username = localStorage.getItem('username') || 'Sinh viên';
+                document.getElementById('user-name').textContent = username;
+                document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+            }
+        });
+    </script>
+</body>
+</html>

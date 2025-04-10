@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Notes - Tài liệu môn học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+            :root {
+    --primary-color: #D52B1E;     /* đỏ PTIT */
+    --secondary-color: #B22222;   /* đỏ đậm */
+    --danger-color: #8B0000;      /* đỏ rất đậm */
+    --border-color: #D52B1E;
+}
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            padding: 20px 0;
+        }
+        
+        .logo-container {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .ptit-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .menu li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .menu li a:hover, 
+        .menu li a.active {
+            background: #f0f4ff;
+            color: var(--primary-color);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .logout-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logout-btn i {
+            margin-right: 5px;
+        }
+        
+        /* Materials Table */
+        .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .materials-table th, 
+        .materials-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .materials-table th {
+            background: #f5f7fa;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .download-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .download-btn i {
+            margin-right: 5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/ptit-logo-inkythuatso-17-14-54-16.jpg" alt="PTIT Logo" class="ptit-logo">
+            <div class="logo">Student Notes</div>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar" id="user-avatar">VV</div>
+            <div class="user-info">
+                <div class="user-name" id="user-name">Vũ Văn Thắng</div>
+                <div class="user-role">Hệ chính quy</div>
+            </div>
+        </div>
+        
+        <ul class="menu">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Thời khóa biểu</a></li>
+            <li><a href="teachers.html"><i class="fas fa-chalkboard-teacher"></i> Danh sách giảng viên</a></li>
+            <li><a href="student-list.html"><i class="fas fa-users"></i> Danh sách sinh viên</a></li>
+            <li><a href="subjects.html"><i class="fas fa-book"></i> Môn học</a></li>
+            <li><a href="personal-schedule.html"><i class="fas fa-calendar-week"></i> Lịch học cá nhân</a></li>
+            <li><a href="materials.html" class="active"><i class="fas fa-file-alt"></i> Tài liệu môn học</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1 class="page-title"><i class="fas fa-file-alt"></i> Tài liệu môn học</h1>
+            <button class="logout-btn" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+        </div>
+        
+        <div class="card">
+            <table class="materials-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Môn học</th>
+                        <th>Giảng viên</th>
+                        <th>Tài liệu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="subject-name" data-drive-link="https://drive.google.com/drive/folders/1qceqgcrc4gsZoHKWxy3ZamKpKHTfEPta">
+                            Cấu trúc dữ liệu và giải thuật
+                        </td>
+                        <td>Vũ Thị Thúy Hà</td>
+                        
+                        <td>
+                            <a href="#" class="drive-link" data-drive-link="https://drive.google.com/drive/folders/1qceqgcrc4gsZoHKWxy3ZamKpKHTfEPta">
+                                <i class="fab fa-google-drive"></i> Google Drive
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="subject-name" data-drive-link="https://drive.google.com/drive/folders/1mbrolSkKLak8nnuLC0AvGcrG-v6POerz">
+                            Hệ điều hành
+                        </td>
+                        <td>Đặng Trần Lê Anh</td>
+                        
+                        <td>
+                            <a href="#" class="drive-link" data-drive-link="https://drive.google.com/drive/folders/1mbrolSkKLak8nnuLC0AvGcrG-v6POerz">
+                                <i class="fab fa-google-drive"></i> Google Drive
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="subject-name" data-drive-link="https://drive.google.com/drive/folders/1kS87H-dTy-5xMzmssEAQwT7Wc8r4CRI8">
+                            Kỹ thuật mạng truyền thông
+                        </td>
+                        <td>Nguyễn Thanh Trà</td>
+                        
+                        <td>
+                            <a href="#" class="drive-link" data-drive-link="https://drive.google.com/drive/folders/1kS87H-dTy-5xMzmssEAQwT7Wc8r4CRI8">
+                                <i class="fab fa-google-drive"></i> Google Drive
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="subject-name" data-drive-link="https://drive.google.com/drive/folders/1ZFKj_ejyzQ0Dywzhy1Q9lXBkqOsK_YrF">
+                            Công nghệ phần mềm
+                        </td>
+                        <td>Lâm Đức Dương</td>
+                        
+                        <td>
+                            <a href="#" class="drive-link" data-drive-link="https://drive.google.com/drive/folders/1ZFKj_ejyzQ0Dywzhy1Q9lXBkqOsK_YrF">
+                                <i class="fab fa-google-drive"></i> Google Drive
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="subject-name" data-drive-link="https://drive.google.com/drive/folders/1K2W67fJLMojo6CXPASaA7eDfMirV6yal">
+                            Mô phỏng hệ thống truyền thông
+                        </td>
+                        <td>Nguyễn Thị Thu Hằng</td>
+                        
+                        <td>
+                            <a href="#" class="drive-link" data-drive-link="https://drive.google.com/drive/folders/1K2W67fJLMojo6CXPASaA7eDfMirV6yal">
+                                <i class="fab fa-google-drive"></i> Google Drive
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td class="subject-name" data-drive-link="https://drive.google.com/drive/folders/16a_8uoBoJynmT4yvGaXMGB7w1kOzc4vR">
+                            Kỹ thuật thông tin quang
+                        </td>
+                        <td>Lê Thanh Thủy</td>
+                        
+                        <td>
+                            <a href="#" class="drive-link" data-drive-link="https://drive.google.com/drive/folders/16a_8uoBoJynmT4yvGaXMGB7w1kOzc4vR">
+                                <i class="fab fa-google-drive"></i> Google Drive
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Xử lý click vào tên môn học hoặc nút Google Drive
+        document.querySelectorAll('.subject-name, .drive-link').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                const driveLink = this.getAttribute('data-drive-link');
+                if (driveLink) {
+                    window.open(driveLink, '_blank');
+                }
+            });
+        });
+
+        // Kiểm tra đăng nhập
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <script>
+        // Xử lý đăng xuất
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('username');
+            window.location.href = 'login.html';
+        });
+
+        // Kiểm tra đăng nhập
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        } else {
+            // Hiển thị thông tin người dùng
+            const username = localStorage.getItem('username') || 'Sinh viên';
+            document.getElementById('user-name').textContent = username;
+            document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+        }
+    </script>
+</body>
+</html>

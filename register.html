@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Notes - Đăng ký</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border: 3px solid #D52B1E; /* Viền đỏ giống logo PTIT */
+        }
+        
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .ptit-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .app-name {
+            color: #D52B1E; /* Màu đỏ giống logo PTIT */
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .eye-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #D52B1E, #B22222); /* Gradient màu đỏ */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(to right, #B22222, #8B0000); /* Màu đỏ đậm hơn khi hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .form-footer a {
+            color: #D52B1E; /* Màu đỏ giống logo PTIT */
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .form-footer a:hover {
+            color: #B22222; /* Màu đỏ đậm hơn khi hover */
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #999;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider-text {
+            padding: 0 10px;
+        }
+        
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-btn i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .google-btn {
+            color: #DB4437;
+            border-color: #DB4437;
+        }
+        
+        .facebook-btn {
+            color: #4267B2;
+            border-color: #4267B2;
+        }
+        
+        .guest-btn {
+            color: #D52B1E; /* Màu đỏ giống logo PTIT */
+            border-color: #D52B1E;
+        }
+        
+        .guest-btn:hover {
+            background-color: #D52B1E;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo-section">
+            <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/ptit-logo-inkythuatso-17-14-54-16.jpg" 
+                 alt="PTIT Logo" 
+                 class="ptit-logo">
+            <div class="app-name">STUDENT NOTES</div>
+        </div>
+        
+        <form id="register-form">
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" class="form-input" placeholder="Họ và tên" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" class="form-input" placeholder="Email" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-id-card"></i>
+                <input type="text" class="form-input" placeholder="Mã sinh viên" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" class="form-input" id="reg-password" placeholder="Mật khẩu" required>
+                <span class="eye-toggle" onclick="togglePassword('reg-password')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" class="form-input" placeholder="Nhập lại mật khẩu" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Đăng ký</button>
+            
+            <div class="form-footer">
+                Đã có tài khoản? <a href="login.html" id="login-link">Đăng nhập ngay</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword(id) {
+            const passwordInput = document.getElementById(id);
+            const icon = passwordInput.nextElementSibling.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Lấy giá trị từ form
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const password = document.getElementById('reg-password').value;
+            
+            // Validate cơ bản
+            if (!name || !email || !password) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+            
+            // Lưu thông tin đăng ký (tạm thời vào localStorage)
+            localStorage.setItem('user_name', name);
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('isLoggedIn', 'true');
+            
+            alert('Đăng ký thành công!');
+            window.location.href = 'dashboard.html';
+        });
+        // Thêm vào register.html
+document.getElementById('register-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const password = document.getElementById('reg-password').value;
+    const confirmPassword = this.querySelector('input[type="password"][placeholder="Nhập lại mật khẩu"]').value;
+    
+    if (password !== confirmPassword) {
+        alert('Mật khẩu nhập lại không khớp!');
+        return;
+    }
+    
+    // Lưu thông tin và chuyển hướng
+    localStorage.setItem('isLoggedIn', 'true');
+    window.location.href = 'dashboard.html';
+});
+    </script>
+</body>
+</html>
