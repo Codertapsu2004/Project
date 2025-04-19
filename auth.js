@@ -1,4 +1,4 @@
-// Kiểm tra xem người dùng đã đăng nhập chưa
+
 function checkAuth() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser || !currentUser.isLoggedIn) {
