@@ -1,659 +1,660 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch học cá nhân</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
---primary-color: #D52B1E;     /* đỏ PTIT */
---secondary-color: #B22222;   /* đỏ đậm */
---danger-color: #8B0000;      /* đỏ rất đậm */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch học cá nhân</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+--primary-color: #D52B1E;     /* đỏ PTIT */
+--secondary-color: #B22222;   /* đỏ đậm */
+--danger-color: #8B0000;      /* đỏ rất đậm */
 --border-color: #D52B1E;
 }
-    
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-        background: #f5f7fa;
-        display: flex;
-        min-height: 100vh;
-    }
-    
-    /* Sidebar */
-    .sidebar {
-        width: 250px;
-        background: white;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        padding: 20px 0;
-    }
-    
-    .logo-container {
-        text-align: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .ptit-logo {
-        width: 80px;
-        height: auto;
-        margin-bottom: 10px;
-    }
-    .main-content {
-            flex: 1;
-            padding: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .page-title {
-            font-size: 24px;
-            color: #333;
-        }
-        
-        .schedule-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .day-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .day-title {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 18px;
-        }
-        
-        .schedule-form {
-            margin-bottom: 15px;
-        }
-        
-        .form-group {
-            margin-bottom: 10px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #555;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        .btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            background: var(--secondary-color);
-        }
-        
-        .schedule-list {
-            margin-top: 15px;
-        }
-        
-        .schedule-item {
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed #eee;
-        }
-        
-        .schedule-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .subject-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .schedule-time {
-            color: #666;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .empty-day {
-            color: #999;
-            font-style: italic;
-            text-align: center;
-            padding: 10px 0;
-        }
-        
-        .btn-remove {
-            background: var(--danger-color);
-            color: white;
-            border: none;
-            padding: 3px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        
-        .back-button-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .back-button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-    
-    .logo {
-        color: var(--primary-color);
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 5px;
-    }
-    
-    .user-profile {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--primary-color);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 10px;
-        font-weight: bold;
-    }
-    
-    .menu {
-        list-style: none;
-        margin-top: 20px;
-    }
-    
-    .menu li a {
-        display: flex;
-        align-items: center;
-        padding: 12px 25px;
-        color: #555;
-        text-decoration: none;
-        transition: all 0.3s;
-    }
-    
-    .menu li a:hover, 
-    .menu li a.active {
-        background: #f0f4ff;
-        color: var(--primary-color);
-        border-left: 3px solid var(--primary-color);
-    }
-    
-    .menu li a i {
-        margin-right: 10px;
-        width: 20px;
-        text-align: center;
-    }
-    
-    /* Main Content */
-    .main-content {
-        flex: 1;
-        padding: 30px;
-    }
-    
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-    }
-    
-    .page-title {
-        font-size: 24px;
-        color: #333;
-    }
-    
-    .logout-btn {
-        background: var(--danger-color);
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-    }
-    
-    .logout-btn i {
-        margin-right: 5px;
-    }
-    
-    /* Materials Table */
-    .materials-table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    
-    .materials-table th, 
-    .materials-table td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .materials-table th {
-        background: #f5f7fa;
-        font-weight: 600;
-        color: #555;
-    }
-    
-    .download-btn {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-    }
-    
-    .download-btn i {
-        margin-right: 5px;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        body {
-            flex-direction: column;
-        }
-        
-        .sidebar {
-            width: 100%;
-            padding: 10px 0;
-        }
-    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+        background: #f5f7fa;
+        display: flex;
+        min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        background: white;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        padding: 20px 0;
+    }
+    
+    .logo-container {
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .ptit-logo {
+        width: 80px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .main-content {
+            flex: 1;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .schedule-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .day-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .day-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+        }
+        
+        .schedule-form {
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        .schedule-list {
+            margin-top: 15px;
+        }
+        
+        .schedule-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .schedule-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .subject-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .schedule-time {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .empty-day {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 10px 0;
+        }
+        
+        .btn-remove {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .back-button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .back-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+    
+    .logo {
+        color: var(--primary-color);
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    
+    .user-profile {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+    
+    .menu {
+        list-style: none;
+        margin-top: 20px;
+    }
+    
+    .menu li a {
+        display: flex;
+        align-items: center;
+        padding: 12px 25px;
+        color: #555;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+    
+    .menu li a:hover, 
+    .menu li a.active {
+        background: #f0f4ff;
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .menu li a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        padding: 30px;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    .page-title {
+        font-size: 24px;
+        color: #333;
+    }
+    
+    .logout-btn {
+        background: var(--danger-color);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+    
+    .logout-btn i {
+        margin-right: 5px;
+    }
+    
+    /* Materials Table */
+    .materials-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .materials-table th, 
+    .materials-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .materials-table th {
+        background: #f5f7fa;
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .download-btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .download-btn i {
+        margin-right: 5px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        body {
+            flex-direction: column;
+        }
+        
+        .sidebar {
+            width: 100%;
+            padding: 10px 0;
+        }
+    }
 </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo-container">
-            <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/ptit-logo-inkythuatso-17-14-54-16.jpg" alt="PTIT Logo" class="ptit-logo">
-            <div class="logo">Student Notes</div>
-        </div>
-        
-        <div class="user-profile">
-            <div class="user-avatar" id="user-avatar">VV</div>
-            <div class="user-info">
-                <div class="user-name" id="user-name">Vũ Văn Thắng</div>
-                <div class="user-role">Hệ chính quy</div>
-            </div>
-        </div>
-        
-        <ul class="menu">
-            <li><a href="dashboard.html"><i class="fas fa-home"></i> Trang chủ</a></li>
-            
-            <li><a href="personal-schedule.html"><i class="fas fa-calendar-week"></i> Lịch học cá nhân</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <div class="header">
-            <h1 class="page-title"><i class="fas fa-calendar-week"></i> Lịch học cá nhân</h1>
-        </div>
-        
-        <div class="schedule-container">
-            <!-- Thứ 2 -->
-            <div class="day-card">
-                <h3 class="day-title">Thứ 2</h3>
-                <form class="schedule-form" data-day="monday">
-                    <div class="form-group">
-                        <label for="monday-subject">Môn học</label>
-                        <input type="text" id="monday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="monday-time">Thời gian</label>
-                        <input type="text" id="monday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="monday-location">Địa điểm</label>
-                        <input type="text" id="monday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="monday-list">
-                    <!-- Danh sách lịch học sẽ được thêm vào đây bằng JavaScript -->
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-            
-            <!-- Thứ 3 -->
-            <div class="day-card">
-                <h3 class="day-title">Thứ 3</h3>
-                <form class="schedule-form" data-day="tuesday">
-                    <div class="form-group">
-                        <label for="tuesday-subject">Môn học</label>
-                        <input type="text" id="tuesday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="tuesday-time">Thời gian</label>
-                        <input type="text" id="tuesday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="tuesday-location">Địa điểm</label>
-                        <input type="text" id="tuesday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="tuesday-list">
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-            
-            <!-- Thứ 4 -->
-            <div class="day-card">
-                <h3 class="day-title">Thứ 4</h3>
-                <form class="schedule-form" data-day="wednesday">
-                    <div class="form-group">
-                        <label for="wednesday-subject">Môn học</label>
-                        <input type="text" id="wednesday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="wednesday-time">Thời gian</label>
-                        <input type="text" id="wednesday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="wednesday-location">Địa điểm</label>
-                        <input type="text" id="wednesday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="wednesday-list">
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-            
-            <!-- Thứ 5 -->
-            <div class="day-card">
-                <h3 class="day-title">Thứ 5</h3>
-                <form class="schedule-form" data-day="thursday">
-                    <div class="form-group">
-                        <label for="thursday-subject">Môn học</label>
-                        <input type="text" id="thursday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="thursday-time">Thời gian</label>
-                        <input type="text" id="thursday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="thursday-location">Địa điểm</label>
-                        <input type="text" id="thursday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="thursday-list">
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-            
-            <!-- Thứ 6 -->
-            <div class="day-card">
-                <h3 class="day-title">Thứ 6</h3>
-                <form class="schedule-form" data-day="friday">
-                    <div class="form-group">
-                        <label for="friday-subject">Môn học</label>
-                        <input type="text" id="friday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="friday-time">Thời gian</label>
-                        <input type="text" id="friday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="friday-location">Địa điểm</label>
-                        <input type="text" id="friday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="friday-list">
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-            
-            <!-- Thứ 7 -->
-            <div class="day-card">
-                <h3 class="day-title">Thứ 7</h3>
-                <form class="schedule-form" data-day="saturday">
-                    <div class="form-group">
-                        <label for="saturday-subject">Môn học</label>
-                        <input type="text" id="saturday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="saturday-time">Thời gian</label>
-                        <input type="text" id="saturday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="saturday-location">Địa điểm</label>
-                        <input type="text" id="saturday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="saturday-list">
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-            
-            <!-- Chủ nhật -->
-            <div class="day-card">
-                <h3 class="day-title">Chủ nhật</h3>
-                <form class="schedule-form" data-day="sunday">
-                    <div class="form-group">
-                        <label for="sunday-subject">Môn học</label>
-                        <input type="text" id="sunday-subject" class="form-control" placeholder="Nhập tên môn học">
-                    </div>
-                    <div class="form-group">
-                        <label for="sunday-time">Thời gian</label>
-                        <input type="text" id="sunday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
-                    </div>
-                    <div class="form-group">
-                        <label for="sunday-location">Địa điểm</label>
-                        <input type="text" id="sunday-location" class="form-control" placeholder="Nhập địa điểm">
-                    </div>
-                    <button type="submit" class="btn">Thêm lịch học</button>
-                </form>
-                <div class="schedule-list" id="sunday-list">
-                    <div class="empty-day">Chưa có lịch học</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="back-button-container">
-            <button class="back-button" onclick="window.location.href='dashboard.html'">
-                <i class="fas fa-arrow-left"></i> Trở về Trang chủ
-            </button>
-        </div>
-    </div>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/12/ptit-logo-inkythuatso-17-14-54-16.jpg" alt="PTIT Logo" class="ptit-logo">
+            <div class="logo">Student Notes</div>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar" id="user-avatar">VV</div>
+            <div class="user-info">
+                <div class="user-name" id="user-name">Vũ Văn Thắng</div>
+                <div class="user-role">Hệ chính quy</div>
+            </div>
+        </div>
+        
+        <ul class="menu">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+            
+            <li><a href="personal-schedule.html"><i class="fas fa-calendar-week"></i> Lịch học cá nhân</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1 class="page-title"><i class="fas fa-calendar-week"></i> Lịch học cá nhân</h1>
+        </div>
+        
+        <div class="schedule-container">
+            <!-- Thứ 2 -->
+            <div class="day-card">
+                <h3 class="day-title">Thứ 2</h3>
+                <form class="schedule-form" data-day="monday">
+                    <div class="form-group">
+                        <label for="monday-subject">Môn học</label>
+                        <input type="text" id="monday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="monday-time">Thời gian</label>
+                        <input type="text" id="monday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="monday-location">Địa điểm</label>
+                        <input type="text" id="monday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="monday-list">
+                    <!-- Danh sách lịch học sẽ được thêm vào đây bằng JavaScript -->
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+            
+            <!-- Thứ 3 -->
+            <div class="day-card">
+                <h3 class="day-title">Thứ 3</h3>
+                <form class="schedule-form" data-day="tuesday">
+                    <div class="form-group">
+                        <label for="tuesday-subject">Môn học</label>
+                        <input type="text" id="tuesday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="tuesday-time">Thời gian</label>
+                        <input type="text" id="tuesday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="tuesday-location">Địa điểm</label>
+                        <input type="text" id="tuesday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="tuesday-list">
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+            
+            <!-- Thứ 4 -->
+            <div class="day-card">
+                <h3 class="day-title">Thứ 4</h3>
+                <form class="schedule-form" data-day="wednesday">
+                    <div class="form-group">
+                        <label for="wednesday-subject">Môn học</label>
+                        <input type="text" id="wednesday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="wednesday-time">Thời gian</label>
+                        <input type="text" id="wednesday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="wednesday-location">Địa điểm</label>
+                        <input type="text" id="wednesday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="wednesday-list">
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+            
+            <!-- Thứ 5 -->
+            <div class="day-card">
+                <h3 class="day-title">Thứ 5</h3>
+                <form class="schedule-form" data-day="thursday">
+                    <div class="form-group">
+                        <label for="thursday-subject">Môn học</label>
+                        <input type="text" id="thursday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="thursday-time">Thời gian</label>
+                        <input type="text" id="thursday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="thursday-location">Địa điểm</label>
+                        <input type="text" id="thursday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="thursday-list">
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+            
+            <!-- Thứ 6 -->
+            <div class="day-card">
+                <h3 class="day-title">Thứ 6</h3>
+                <form class="schedule-form" data-day="friday">
+                    <div class="form-group">
+                        <label for="friday-subject">Môn học</label>
+                        <input type="text" id="friday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="friday-time">Thời gian</label>
+                        <input type="text" id="friday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="friday-location">Địa điểm</label>
+                        <input type="text" id="friday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="friday-list">
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+            
+            <!-- Thứ 7 -->
+            <div class="day-card">
+                <h3 class="day-title">Thứ 7</h3>
+                <form class="schedule-form" data-day="saturday">
+                    <div class="form-group">
+                        <label for="saturday-subject">Môn học</label>
+                        <input type="text" id="saturday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="saturday-time">Thời gian</label>
+                        <input type="text" id="saturday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="saturday-location">Địa điểm</label>
+                        <input type="text" id="saturday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="saturday-list">
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+            
+            <!-- Chủ nhật -->
+            <div class="day-card">
+                <h3 class="day-title">Chủ nhật</h3>
+                <form class="schedule-form" data-day="sunday">
+                    <div class="form-group">
+                        <label for="sunday-subject">Môn học</label>
+                        <input type="text" id="sunday-subject" class="form-control" placeholder="Nhập tên môn học">
+                    </div>
+                    <div class="form-group">
+                        <label for="sunday-time">Thời gian</label>
+                        <input type="text" id="sunday-time" class="form-control" placeholder="VD: 8:00 - 10:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="sunday-location">Địa điểm</label>
+                        <input type="text" id="sunday-location" class="form-control" placeholder="Nhập địa điểm">
+                    </div>
+                    <button type="submit" class="btn">Thêm lịch học</button>
+                </form>
+                <div class="schedule-list" id="sunday-list">
+                    <div class="empty-day">Chưa có lịch học</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="back-button-container">
+            <button class="back-button" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i> Trở về Trang chủ
+            </button>
+        </div>
+    </div>
 
-    <script>
-        // Lưu trữ lịch học vào localStorage
-        function saveSchedule() {
-            const scheduleData = {};
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-            
-            days.forEach(day => {
-                const list = document.getElementById(`${day}-list`);
-                const items = list.querySelectorAll('.schedule-item:not(.empty-day)');
-                const dayData = [];
-                
-                items.forEach(item => {
-                    dayData.push({
-                        subject: item.querySelector('.subject-name').textContent,
-                        time: item.querySelector('.schedule-time').textContent.replace('×', '').trim(),
-                        location: item.dataset.location
-                    });
-                });
-                
-                scheduleData[day] = dayData;
-            });
-            
-            localStorage.setItem('personalSchedule', JSON.stringify(scheduleData));
-        }
-        
-        // Tải lịch học từ localStorage
-        function loadSchedule() {
-            const savedData = localStorage.getItem('personalSchedule');
-            if (savedData) {
-                const scheduleData = JSON.parse(savedData);
-                const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                
-                days.forEach(day => {
-                    const list = document.getElementById(`${day}-list`);
-                    list.innerHTML = '';
-                    
-                    if (scheduleData[day] && scheduleData[day].length > 0) {
-                        scheduleData[day].forEach(item => {
-                            addScheduleItem(day, item.subject, item.time, item.location);
-                        });
-                    } else {
-                        list.innerHTML = '<div class="empty-day">Chưa có lịch học</div>';
-                    }
-                });
-            }
-        }
-        
-        // Thêm mục lịch học mới
-        function addScheduleItem(day, subject, time, location) {
-            const list = document.getElementById(`${day}-list`);
-            
-            // Xóa thông báo "Chưa có lịch học" nếu có
-            if (list.querySelector('.empty-day')) {
-                list.innerHTML = '';
-            }
-            
-            const item = document.createElement('div');
-            item.className = 'schedule-item';
-            item.dataset.location = location;
-            item.innerHTML = `
-                <div class="subject-name">${subject}</div>
-                <div class="schedule-time">
-                    <i class="far fa-clock"></i> ${time}
-                    <span style="margin-left: auto;"><i class="fas fa-map-marker-alt"></i> ${location}</span>
-                    <button class="btn-remove" onclick="this.parentElement.parentElement.remove(); saveSchedule()">×</button>
-                </div>
-            `;
-            
-            list.appendChild(item);
-        }
-        function sortScheduleItems(list) {
-    const items = Array.from(list.querySelectorAll('.schedule-item'));
-    items.sort((a, b) => {
-        const timeA = a.querySelector('.schedule-time').textContent.split(' - ')[0];
-        const timeB = b.querySelector('.schedule-time').textContent.split(' - ')[0];
-        return timeA.localeCompare(timeB);
-    });
-    items.forEach(item => list.appendChild(item));
+    <script>
+        // Lưu trữ lịch học vào localStorage
+        function saveSchedule() {
+            const scheduleData = {};
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            
+            days.forEach(day => {
+                const list = document.getElementById(`${day}-list`);
+                const items = list.querySelectorAll('.schedule-item:not(.empty-day)');
+                const dayData = [];
+                
+                items.forEach(item => {
+                    dayData.push({
+                        subject: item.querySelector('.subject-name').textContent,
+                        time: item.querySelector('.schedule-time').textContent.replace('×', '').trim(),
+                        location: item.dataset.location
+                    });
+                });
+                
+                scheduleData[day] = dayData;
+            });
+            
+            localStorage.setItem('personalSchedule', JSON.stringify(scheduleData));
+        }
+        
+        // Tải lịch học từ localStorage
+        function loadSchedule() {
+            const savedData = localStorage.getItem('personalSchedule');
+            if (savedData) {
+                const scheduleData = JSON.parse(savedData);
+                const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                
+                days.forEach(day => {
+                    const list = document.getElementById(`${day}-list`);
+                    list.innerHTML = '';
+                    
+                    if (scheduleData[day] && scheduleData[day].length > 0) {
+                        scheduleData[day].forEach(item => {
+                            addScheduleItem(day, item.subject, item.time, item.location);
+                        });
+                    } else {
+                        list.innerHTML = '<div class="empty-day">Chưa có lịch học</div>';
+                    }
+                });
+            }
+        }
+        
+        // Thêm mục lịch học mới
+        function addScheduleItem(day, subject, time, location) {
+            const list = document.getElementById(`${day}-list`);
+            
+            // Xóa thông báo "Chưa có lịch học" nếu có
+            if (list.querySelector('.empty-day')) {
+                list.innerHTML = '';
+            }
+            
+            const item = document.createElement('div');
+            item.className = 'schedule-item';
+            item.dataset.location = location;
+            item.innerHTML = `
+                <div class="subject-name">${subject}</div>
+                <div class="schedule-time">
+                    <i class="far fa-clock"></i> ${time}
+                    <span style="margin-left: auto;"><i class="fas fa-map-marker-alt"></i> ${location}</span>
+                    <button class="btn-remove" onclick="this.parentElement.parentElement.remove(); saveSchedule()">×</button>
+                </div>
+            `;
+            
+            list.appendChild(item);
+        }
+        function sortScheduleItems(list) {
+    const items = Array.from(list.querySelectorAll('.schedule-item'));
+    items.sort((a, b) => {
+        const timeA = a.querySelector('.schedule-time').textContent.split(' - ')[0];
+        const timeB = b.querySelector('.schedule-time').textContent.split(' - ')[0];
+        return timeA.localeCompare(timeB);
+    });
+    items.forEach(item => list.appendChild(item));
 }
 function showToast(message, isSuccess = true) {
-    const toast = document.createElement('div');
-    toast.style.position = 'fixed';
-    toast.style.bottom = '20px';
-    toast.style.right = '20px';
-    toast.style.padding = '10px 20px';
-    toast.style.background = isSuccess ? 'green' : 'red';
-    toast.style.color = 'white';
-    toast.style.borderRadius = '5px';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
+    const toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.right = '20px';
+    toast.style.padding = '10px 20px';
+    toast.style.background = isSuccess ? 'green' : 'red';
+    toast.style.color = 'white';
+    toast.style.borderRadius = '5px';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
 }
 
 // Gọi hàm này sau khi thêm mục mới hoặc tải dữ liệu
-        
-        // Xử lý khi form được submit
-        document.querySelectorAll('.schedule-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const day = this.dataset.day;
-                const subjectInput = document.getElementById(`${day}-subject`);
-                const timeInput = document.getElementById(`${day}-time`);
-                const locationInput = document.getElementById(`${day}-location`);
-                
-                if (subjectInput.value && timeInput.value && locationInput.value) {
-                    addScheduleItem(day, subjectInput.value, timeInput.value, locationInput.value);
-                    saveSchedule();
-                    
-                    // Reset form
-                    subjectInput.value = '';
-                    timeInput.value = '';
-                    locationInput.value = '';
-                    subjectInput.focus();
-                }
-                // Trong phần xử lý submit form
-if (!subjectInput.value.trim() || !timeInput.value.trim() || !locationInput.value.trim()) {
-    alert('Vui lòng điền đầy đủ thông tin');
-    return;
-}
-            });
-        });
-        
-        // Tải lịch học khi trang được load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSchedule();
-        });
-    </script>
+        
+        // Xử lý khi form được submit
+      // Thay thế phần xử lý submit form bằng đoạn code này
+document.querySelectorAll('.schedule-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const day = this.dataset.day;
+        const subjectInput = document.getElementById(`${day}-subject`);
+        const timeInput = document.getElementById(`${day}-time`);
+        const locationInput = document.getElementById(`${day}-location`);
+        
+        // Kiểm tra điều kiện (chỉ cần 1 điều kiện duy nhất)
+        if (!subjectInput.value.trim() || !timeInput.value.trim() || !locationInput.value.trim()) {
+            alert('Vui lòng điền đầy đủ thông tin');
+            return;
+        }
+        
+        // Nếu đã điền đầy đủ thì thêm vào lịch
+        addScheduleItem(day, subjectInput.value.trim(), timeInput.value.trim(), locationInput.value.trim());
+        saveSchedule();
+        
+        // Reset form
+        subjectInput.value = '';
+        timeInput.value = '';
+        locationInput.value = '';
+        subjectInput.focus();
+    });
+});
+        
+        // Tải lịch học khi trang được load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSchedule();
+        });
+    </script>
 </body>
 </html>
