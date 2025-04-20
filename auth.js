@@ -11,12 +11,12 @@ function checkRegisteredBeforeLogin() {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     if (users.length === 0) {
         alert('Vui lòng đăng ký tài khoản trước!');
-        window.location.href = 'register.html';
+        window.location.href  = 'register.html';
     }
 }
 
 // Hàm đăng xuất
 function logout() {
     localStorage.removeItem('currentUser');
-    window.location.href = 'login.html';
+    window.location.href  =  'login.html';
 }
