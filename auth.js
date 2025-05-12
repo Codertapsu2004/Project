@@ -15,7 +15,7 @@ function checkRegisteredBeforeLogin() {
     }
 }
 
-// Hàm đăng xuất
+// Hàm đăng xuất code
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href  =  'login.html';
