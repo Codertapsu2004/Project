@@ -426,7 +426,7 @@
                 </div>
             </div>
             
-            <!-- Công nghệ phần mềm -->
+      
             <div class="subject-card">
                 <h3 class="subject-title">Công nghệ phần mềm</h3>
                 <div class="subject-info">
@@ -442,7 +442,7 @@
                 </div>
             </div>
             
-            <!-- Kỹ thuật mạng truyền thông -->
+        
             <div class="subject-card">
                 <h3 class="subject-title">Kỹ thuật mạng truyền thông</h3>
                 <div class="subject-info">
@@ -458,7 +458,7 @@
                 </div>
             </div>
             
-            <!-- Mô phỏng hệ thống truyền thông -->
+     
             <div class="subject-card">
                 <h3 class="subject-title">Mô phỏng hệ thống truyền thông</h3>
                 <div class="subject-info">
@@ -474,7 +474,7 @@
                 </div>
             </div>
             
-            <!-- Kỹ thuật thông tin quang -->
+        
             <div class="subject-card">
                 <h3 class="subject-title">Kỹ thuật thông tin quang</h3>
                 <div class="subject-info">
@@ -490,9 +490,6 @@
                 </div>
             </div>
         </div>
-
-            
-            <!-- Thêm các môn học khác -->
         </div>
         
         <div class="back-button-container">
@@ -500,16 +497,12 @@
                 <i class="fas fa-arrow-left"></i> Trở về Trang chủ
             </button>
         </div>
-    </div>
-
+</div>
     <script>
-        // Kiểm tra đăng nhập
         document.addEventListener('DOMContentLoaded', function() {
             if (!localStorage.getItem('isLoggedIn')) {
                 window.location.href = 'login.html';
             }
-            
-            // Hiển thị thông tin người dùng
             const username = localStorage.getItem('username') || 'Sinh viên';
             document.getElementById('user-name').textContent = username;
             document.getElementById('user-avatar').textContent = 
